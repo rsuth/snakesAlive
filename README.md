@@ -1,7 +1,9 @@
 snakesAlive
 ===========
 
-CISC 200 snake game.
+C++/curses classic snake game.
+
+for CISC 200.
 
 to do:
 * ~~add keyboard control~~
