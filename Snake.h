@@ -37,6 +37,8 @@ class Snake{
       int startCol;
       int length;
       char headChar;
+      char tailChar;
+      bool mouthOpen;
       vector<Segment*> segments;
       void grow();
       bool move(Direction dir);

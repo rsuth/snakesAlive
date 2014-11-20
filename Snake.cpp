@@ -13,7 +13,7 @@ int Segment::count = 0;
 //default constructor:
 Segment::Segment(){
    count++;
-   displayChar = '#';
+   displayChar = 'o';
 }
 
 //destructor:
@@ -25,7 +25,7 @@ Segment::~Segment(){
 Segment::Segment(int _row, int _col){
    row = _row;
    col = _col;
-   displayChar = '#';
+   displayChar = 'o';
    count++;
 }
 
@@ -63,7 +63,7 @@ Snake::Snake(){
    startCol = 1;
 
    // default headChar
-   headChar = 'H';
+   headChar = 'o';
 
    // make the head, whose parent is itself.
    segments.push_back(new Segment(startRow, startCol));
@@ -78,7 +78,7 @@ Snake::Snake(int _startRow, int _startCol){
    startRow = _startRow;
    startCol = _startCol;
 
-   headChar = 'H';
+   headChar = 'o';
 
    // make the head, whose parent is itself.
    segments.push_back(new Segment(startRow, startCol));
@@ -101,7 +101,6 @@ void Snake::setHeadChar(char head){
 
 
 bool Snake::move(Direction dir){
-   
    bool success = false;
 
    for(int i = segments.size()-1; i >= 1; i--){
@@ -111,20 +110,58 @@ bool Snake::move(Direction dir){
 
    switch(dir){
       case UP:
+         
          if(segments[0]->setRow((segments[0]->getRow())-1))
             success = true;
+         
+         //if(mouthOpen){
+            //setHeadChar('|');
+            //mouthOpen = false;
+         //}else{
+            //setHeadChar('v');
+            //mouthOpen = true;
+         //}
+
          break;
       case DOWN:
          if(segments[0]->setRow((segments[0]->getRow())+1))
             success = true;
+         
+         //if(mouthOpen){
+            //setHeadChar('|');
+            //mouthOpen = false;
+         //}else{
+            //setHeadChar('^');
+            //mouthOpen = true;
+         //}
+         
          break;
       case LEFT:
+         
          if(segments[0]->setCol((segments[0]->getCol())-1))
             success = true;
+         
+         //if(mouthOpen){
+            //setHeadChar('-');
+            //mouthOpen = false;
+         //}else{
+            //setHeadChar('>');
+            //mouthOpen = true;
+         //}
+         
          break;
       case RIGHT:
          if(segments[0]->setCol((segments[0]->getCol())+1))
             success = true;
+         
+         //if(mouthOpen){
+            //setHeadChar('-');
+            //mouthOpen = false;
+         //}else{
+            //setHeadChar('<');
+            //mouthOpen = true;
+         //}
+         
          break;
    }
 
