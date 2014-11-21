@@ -8,64 +8,84 @@
 
 using namespace std;
 
+// the main game loop.
+// also sets up curses window (need to change this)
 void playGame();
 
+// print using curses
 void printMapCurses(Map &gameMap, WINDOW* win);
 
+// keyboard input function, (should probably go somewhere else)
 void getDirectionFromKeyboard(WINDOW* win, Direction &dir);
 
-int main(){         
-   
+int main(){          
    playGame();
    return 0;
 }
 
 void playGame(){
-   int windowRows;
-   int windowCols;
-   int mapRows = 10;
-   int mapCols = 10;
-   int leftPad = 10;
-   int topPad = 10;
-   int i = 0;
-   char buffer[100];
-
-   Direction direction = DOWN;
-    
-   initscr();
-   cbreak();
-   curs_set(0);
-   noecho();
-   start_color();
+   int windowRows, windowCols, mapRows, mapCols, leftPad, topPad;
+   int i = 0;                    // a counter variable
+   char buffer[100];             // needed for the curses equivalent of getline, holds garbage input
+   Direction direction = DOWN;   // the direction variable set to default starting direction
+   
+   // set up curses stuff
+   initscr();        // intialize curses
+   cbreak();         // needed for non-blocking getch
+   curs_set(0);      // Do not display cursor
+   noecho();         // do not echo keyboard input
+   
+   // initialize color pairs:
+   start_color();    // use colors
    init_pair(1, COLOR_GREEN, COLOR_GREEN);
    init_pair(2, COLOR_RED, COLOR_RED);
    init_pair(3, COLOR_MAGENTA, COLOR_MAGENTA);
    init_pair(4, COLOR_RED, COLOR_GREEN);
+   
+   // configure window geometry:
    getmaxyx(stdscr, windowRows, windowCols);
    leftPad = windowRows/4;
    topPad = windowCols/4;
    mapRows = windowRows/2;
    mapCols = windowCols/2;
-
+   
+   // Make the window:
    WINDOW* gameWindow;
    gameWindow = newwin( mapRows, mapCols, leftPad, topPad );
-   keypad(gameWindow, true);
-   nodelay(gameWindow, true);
+   keypad(gameWindow, true);        // allow use of arrow keys
+   nodelay(gameWindow, true);       // no blocking on getch
    
+   // Make a snake in the center of the board
    Snake snake(mapRows/2, mapCols/2);
-   snake.setHeadChar('\'');
-
+   snake.setHeadChar('*');
+   
+   // make the map, set the bgchar
    Map gameMap(snake,mapRows,mapCols);
    gameMap.bgChar = ' ';
 
-
+   // print once
    printMapCurses(gameMap, gameWindow);
-
+   
+   // the game Loop:
+   // checks the game Map for issues every time it loops.
+   // check handles all collisions as well as food.
    while(gameMap.check()){
+      
+      // First, get the direction from the keyboard, 
+      // and assign it to direction variable. If no input,
+      // the direction stays the same.
       getDirectionFromKeyboard(gameWindow, direction);
+
+      // Move once in the direction.
       snake.move(direction);
+
+      // Update the Map, so we can use the grid
       gameMap.update();
+
+      // print the map:
       printMapCurses(gameMap, gameWindow);
+
+      // sleep.(this value controls the speed of the game)
       usleep(100000);
    }
 
@@ -86,7 +106,7 @@ void printMapCurses(Map &gameMap, WINDOW* win){
             wattron(win, COLOR_PAIR(2));
          if(gameMap.grid[i][j] == '|' || gameMap.grid[i][j] == '-' || gameMap.grid[i][j] == '+')
             wattron(win, COLOR_PAIR(3));
-         if(gameMap.grid[i][j] == '\'')
+         if(gameMap.grid[i][j] == '*')
             wattron(win, COLOR_PAIR(4));
 
          mvwaddch(win, i, j, gameMap.grid[i][j]);
