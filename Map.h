@@ -1,3 +1,6 @@
+#ifndef MAP_H
+#define MAP_H
+
 #include"Snake.h"
 
 using namespace std;
@@ -21,4 +24,4 @@ class Map{
       void makeFood(int _row, int _col);
 };
 
-
+#endif/*MAP_H*/

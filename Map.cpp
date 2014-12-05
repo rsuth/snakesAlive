@@ -10,7 +10,7 @@ Map::Map(Snake &_snake){
    snake = &_snake;
    maxRows = 10;
    maxCols = 20;
-   bgChar = '-';
+   bgChar = ' ';
    foodChar = 'f';
    foodRow = (maxRows/2)+3;
    foodCol = (maxCols/2)-3;
@@ -47,7 +47,7 @@ Map::Map(Snake &_snake, int _maxRows, int _maxCols){
       snake = &_snake;
       maxRows = _maxRows;
       maxCols = _maxCols;
-      bgChar = '-';
+      bgChar = ' ';
       foodChar = 'f';
       foodRow = (maxRows/2)+3;
       foodCol = (maxCols/2)-3;
