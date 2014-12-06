@@ -3,14 +3,21 @@
 #include<unistd.h>
 #include"Snake.h"
 #include"Map.h"
-
+#include"SFML/Audio.hpp"
 using namespace std;
 
 void playGameCurses(){
    int mapRows, mapCols;
-   char buffer[100]; // needed for the curses equivalent of getline, holds garbage input
+   char inbuffer[100]; // needed for the curses equivalent of getline, holds garbage input
    Direction direction = DOWN; // the direction variable set to default starting direction
    
+    sf::SoundBuffer gameoverBuffer;
+    if(!gameoverBuffer.loadFromFile("gameover.wav")){
+    }
+    sf::Sound gameoverSound;
+    gameoverSound.setBuffer(gameoverBuffer);
+
+
    WINDOW* gameWindow = initCurses();
    getmaxyx(gameWindow, mapRows, mapCols);
 
@@ -46,10 +53,11 @@ void playGameCurses(){
       usleep(100000);
    }
 
+   gameoverSound.play();
    mvwprintw(gameWindow, mapRows/2, (mapCols/2)-5, "GAME OVER");
    wrefresh(gameWindow);
    nodelay(gameWindow, false);
-   wgetstr(gameWindow, buffer);
+   wgetstr(gameWindow, inbuffer);
    
    //delete gameWindow;
    delwin(gameWindow);

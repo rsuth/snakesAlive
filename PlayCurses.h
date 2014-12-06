@@ -1,3 +1,6 @@
+#ifndef PLAYCURSES_H
+#define PLAYCURSES_H
+
 #include<curses.h>
 #include"Map.h"
 #include"Snake.h"
@@ -11,4 +14,6 @@ void printMapCurses(Map &gameMap, WINDOW* win);
 WINDOW* initCurses();
 
 void getDirectionCurses(WINDOW* win, Direction &dir);
+
+#endif
 

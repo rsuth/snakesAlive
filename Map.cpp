@@ -2,6 +2,7 @@
 #include"Map.h"
 #include"Snake.h"
 #include<time.h>
+#include"SFML/Audio.hpp"
 
 using namespace std;
 
@@ -14,8 +15,14 @@ Map::Map(Snake &_snake){
    foodChar = 'f';
    foodRow = (maxRows/2)+3;
    foodCol = (maxCols/2)-3;
+    
+    sf::SoundBuffer pwrupBuffer;
+    pwrupBuffer.loadFromFile("pwrup.wav");
+    sf::Sound pwrupSound;
+    pwrupSound.setBuffer(pwrupBuffer);
+    
+    pwrupSound.play();
 
-   
    // initialize the grid:
    grid = new char*[maxRows];
    for(int i = 0; i < maxRows; i++){
@@ -51,6 +58,14 @@ Map::Map(Snake &_snake, int _maxRows, int _maxCols){
       foodChar = 'f';
       foodRow = (maxRows/2)+3;
       foodCol = (maxCols/2)-3;
+
+        sf::SoundBuffer pwrupBuffer;
+        pwrupBuffer.loadFromFile("pwrup.wav");
+        sf::Sound pwrupSound;
+        pwrupSound.setBuffer(pwrupBuffer);
+        
+        pwrupSound.play();
+
       
       // initialize the grid:
       grid = new char*[maxRows];
